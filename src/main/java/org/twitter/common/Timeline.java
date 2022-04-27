@@ -1,4 +1,4 @@
-package org.twitter;
+package org.twitter.common;
 
 import twitter4j.Status;
 import twitter4j.Twitter;

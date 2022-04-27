@@ -1,4 +1,4 @@
-package org.twitter;
+package org.twitter.common;
 
 import org.apache.commons.lang3.StringUtils;
 import twitter4j.Status;
