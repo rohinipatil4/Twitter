@@ -1,0 +1,11 @@
+spring :
+    profiles :
+        active : local
+name : local-YAML
+environment : local
+enabled : true
+oauth :
+    consumerKey : 85Xx13aoN5UPSW6X5nNjMkQ9L
+    consumerSecret : 2xzhAMXXoCR9W92iZPg9xYHd0m42RFdfZ3XzEGdttdDf8gocaz
+    accessToken : 405724690-6PK4MYFqWWVAW0hifDeGP5VrgH6L1h5sJdI66l27
+    accessTokenSecret : gr8k7lbl1yIdK7CISoGtqZZKa5mDI5D9D6Dcic8eXmj2q
