@@ -1,10 +1,13 @@
 package org.twitter.controller;
 
 import io.dropwizard.validation.Validated;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.twitter.config.TwitterConfiguration;
+import org.twitter.config.YamlConfig;
 import org.twitter.dto.TweetRequestDTO;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
@@ -19,9 +22,13 @@ import javax.ws.rs.core.Response;
 @Produces(MediaType.APPLICATION_JSON)
 public class TweetController {
 
+    @Autowired
+    private YamlConfig config;
+
     @PostMapping("/tweet")
     public Response tweet(@Validated @RequestBody TweetRequestDTO tweetRequestDTO) {
-        Twitter twitter = TwitterFactory.getSingleton();
+        TwitterConfiguration twitterConfiguration = new TwitterConfiguration(config);
+        Twitter twitter = twitterConfiguration.getInstance();
         if (twitter != null){
             try {
                 twitter.updateStatus(tweetRequestDTO.getTweet());
