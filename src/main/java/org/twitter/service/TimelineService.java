@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import org.twitter.config.TwitterConfiguration;
 import org.twitter.config.YamlConfig;
 import org.twitter.model.TweetResponseDTO;
-import org.twitter.model.UserDTO;
 import twitter4j.ResponseList;
 import twitter4j.Status;
 import twitter4j.Twitter;
@@ -15,6 +14,8 @@ import twitter4j.TwitterException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class TimelineService {
@@ -41,5 +42,18 @@ public class TimelineService {
             throw new TwitterException("Twitter instance not found");
         }
         return timelineResponse;
+    }
+
+    public List<String> filterTimeline(String filter) throws TwitterException {
+        TwitterConfiguration twitterConfiguration = new TwitterConfiguration(config);
+        Twitter twitter = twitterConfiguration.getInstance();
+        ResponseList<Status> timeline = twitter.getHomeTimeline();
+        List<String> statusList = timeline.stream().filter(status -> status.getText().contains(filter)).map(Status::getText).collect(Collectors.toList());
+        Optional<List<String>> s = Optional.ofNullable(statusList);
+        if(s.isPresent()){
+            return statusList;
+        }else {
+            return null;
+        }
     }
 }
