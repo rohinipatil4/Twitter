@@ -12,18 +12,16 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @RunWith(MockitoJUnitRunner.class)
 public class ApplicationTest {
 
-    @Mock private Twitter twitter;
-
     @Test
     public void checkUserName() throws TwitterException {
-        twitter = TwitterFactory.getSingleton();
+        Twitter twitter = TwitterFactory.getSingleton();
         String username = twitter.getScreenName();
         assertEquals("rohinipatil4", username.toLowerCase());
     }
 
     @Test
     public void checkTweet() throws TwitterException {
-        twitter = TwitterFactory.getSingleton();
+        Twitter twitter = TwitterFactory.getSingleton();
         String testTweet = "Hello world";
         Status status = twitter.updateStatus(testTweet);
         assertEquals(testTweet, status.getText());

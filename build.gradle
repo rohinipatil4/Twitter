@@ -7,6 +7,12 @@ plugins {
 group 'org.twitter'
 version '1.0-SNAPSHOT'
 
+springBoot {
+    mainClass = 'org.twitter.Main'
+}
+
+apply plugin: "jacoco"
+
 repositories {
     mavenCentral()
 }
