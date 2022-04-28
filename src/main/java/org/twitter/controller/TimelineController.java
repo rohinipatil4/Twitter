@@ -14,7 +14,7 @@ import javax.ws.rs.core.Response;
 import java.util.List;
 
 @RestController
-@RequestMapping("/twitter")
+@RequestMapping("/twitter/api/1.0")
 @Produces(MediaType.APPLICATION_JSON)
 public class TimelineController {
 
@@ -32,6 +32,15 @@ public class TimelineController {
         }else {
             return Response.ok(timelineResponse).build();
         }
+    }
+
+    @GetMapping("/timeline/filter")
+    public Response filterTimeline(@RequestParam String filter) throws TwitterException {
+        List<String> timeline = timelineService.filterTimeline(filter);
+        if(null == timeline || timeline.size() == 0){
+            return Response.noContent().build();
+        }
+        return Response.ok(timeline).build();
     }
 
 }
