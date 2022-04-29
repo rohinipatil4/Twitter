@@ -3,6 +3,7 @@ package org.twitter.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.twitter.config.TwitterConfiguration;
 import org.twitter.config.YamlConfig;
@@ -44,11 +45,12 @@ public class TimelineService {
         return timelineResponse;
     }
 
+    @Cacheable(value = "tweet")
     public List<String> filterTimeline(String filter) throws TwitterException {
         TwitterConfiguration twitterConfiguration = new TwitterConfiguration(config);
         Twitter twitter = twitterConfiguration.getInstance();
         ResponseList<Status> timeline = twitter.getHomeTimeline();
-        List<String> statusList = timeline.stream().filter(status -> status.getText().contains(filter)).map(Status::getText).collect(Collectors.toList());
+        List<String> statusList = timeline.stream().filter(status -> status.getText().toLowerCase().contains(filter.toLowerCase())).map(Status::getText).collect(Collectors.toList());
         Optional<List<String>> s = Optional.ofNullable(statusList);
         if(s.isPresent()){
             return statusList;
