@@ -22,15 +22,14 @@ public class TweetController {
     @PostMapping("/tweet")
     public Response tweet(@Validated @RequestBody TweetRequestDTO tweetRequestDTO) {
         Twitter twitter = TwitterFactory.getSingleton();
-        if (twitter != null){
-            try {
-                twitter.updateStatus(tweetRequestDTO.getTweet());
-            } catch (TwitterException e) {
-                return Response.serverError().build();
-            }
-            return Response.ok("Tweet successful").build();
-        }else {
+        if (twitter == null) {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
+        try {
+            twitter.updateStatus(tweetRequestDTO.getTweet());
+        } catch (TwitterException e) {
+            return Response.serverError().build();
+        }
+        return Response.ok("Tweet successful").build();
     }
 }
